@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Tournament Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .sidebar { transition: transform 0.3s ease; }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Login Form -->
+    <div id="loginForm" class="min-h-screen gradient-bg flex items-center justify-center">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
+            <div class="text-center mb-8">
+                <div class="w-20 h-20 mx-auto bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mb-4">
+                    <i class="fas fa-user-shield text-white text-3xl"></i>
+                </div>
+                <h1 class="text-3xl font-bold text-gray-900">Admin Login</h1>
+                <p class="text-gray-600">Tournament Management System</p>
+            </div>
+            
+            <form id="loginFormElement">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+                    <input type="email" id="email" value="admin@tournament.com" required
+                           class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                    <input type="password" id="password" value="admin123" required
+                           class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                </div>
+                <button type="submit" 
+                        class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-bold hover:from-blue-700 hover:to-purple-700">
+                    <i class="fas fa-sign-in-alt mr-2"></i>Login
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="adminPanel" class="hidden min-h-screen bg-gray-50">
+        <!-- Sidebar -->
+        <div class="fixed left-0 top-0 h-full w-64 bg-white shadow-lg z-50">
+            <div class="p-6 border-b gradient-bg">
+                <h2 class="text-xl font-bold text-white">
+                    <i class="fas fa-trophy mr-2"></i>Tournament Admin
+                </h2>
+            </div>
+            <nav class="p-4">
+                <ul class="space-y-2">
+                    <li><a href="#" onclick="showDashboard()" class="nav-link flex items-center p-3 rounded-lg hover:bg-gray-100 bg-blue-50 text-blue-600">
+                        <i class="fas fa-chart-pie mr-3"></i>Dashboard</a></li>
+                    <li><a href="#" onclick="showCreateTournament()" class="nav-link flex items-center p-3 rounded-lg hover:bg-gray-100">
+                        <i class="fas fa-plus mr-3"></i>Create Tournament</a></li>
+                    <li><a href="#" onclick="showTournamentHistory()" class="nav-link flex items-center p-3 rounded-lg hover:bg-gray-100">
+                        <i class="fas fa-history mr-3"></i>Tournament History</a></li>
+                    <li><a href="#" onclick="showPaymentSettings()" class="nav-link flex items-center p-3 rounded-lg hover:bg-gray-100">
+                        <i class="fas fa-credit-card mr-3"></i>Payment Settings</a></li>
+                    <li><a href="#" onclick="logout()" class="nav-link flex items-center p-3 rounded-lg hover:bg-gray-100 text-red-600">
+                        <i class="fas fa-sign-out-alt mr-3"></i>Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="ml-64 min-h-screen">
+            <header class="bg-white shadow-sm p-4 border-b">
+                <h1 id="pageTitle" class="text-2xl font-bold text-gray-800">Dashboard</h1>
+            </header>
+            
+            <main id="mainContent" class="p-6">
+                <!-- Dashboard Stats -->
+                <div id="dashboardContent">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-trophy text-yellow-600 text-2xl"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <p class="text-gray-600 text-sm">Total Tournaments</p>
+                                    <p class="text-2xl font-bold">12</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-users text-blue-600 text-2xl"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <p class="text-gray-600 text-sm">Total Registrations</p>
+                                    <p class="text-2xl font-bold">156</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-money-bill text-green-600 text-2xl"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <p class="text-gray-600 text-sm">Total Income</p>
+                                    <p class="text-2xl font-bold">৳45,600</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-chart-line text-purple-600 text-2xl"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <p class="text-gray-600 text-sm">Active Tournaments</p>
+                                    <p class="text-2xl font-bold">3</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-lg font-bold mb-4">Recent Activities</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center p-3 bg-gray-50 rounded">
+                                <i class="fas fa-user-plus text-green-600 mr-3"></i>
+                                <span>New registration in PUBG Mobile Tournament</span>
+                                <span class="ml-auto text-sm text-gray-500">2 minutes ago</span>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded">
+                                <i class="fas fa-trophy text-yellow-600 mr-3"></i>
+                                <span>Free Fire Championship created</span>
+                                <span class="ml-auto text-sm text-gray-500">1 hour ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Create Tournament Form -->
+                <div id="createTournamentContent" class="hidden">
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-xl font-bold mb-6">Create New Tournament</h3>
+                        <form id="tournamentForm" class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Tournament Name *</label>
+                                    <input type="text" id="tournamentName" required
+                                           placeholder="e.g., PUBG Mobile Championship"
+                                           class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Total Prize Pool *</label>
+                                    <input type="number" id="prizePool" required
+                                           placeholder="e.g., 10000"
+                                           class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">1st Prize *</label>
+                                    <input type="number" id="firstPrize" required
+                                           class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">2nd Prize *</label>
+                                    <input type="number" id="secondPrize" required
+                                           class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">3rd Prize *</label>
+                                    <input type="number" id="thirdPrize" required
+                                           class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Entry Fee *</label>
+                                    <input type="number" id="slotPrice" required
+                                           placeholder="e.g., 50"
+                                           class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Total Slots *</label>
+                                    <input type="number" id="totalSlots" required
+                                           placeholder="e.g., 100"
+                                           class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Registration End Time *</label>
+                                <input type="datetime-local" id="endTime" required
+                                       class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">WhatsApp Group Link *</label>
+                                <input type="url" id="groupLink" required
+                                       placeholder="https://chat.whatsapp.com/..."
+                                       class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <button type="submit" 
+                                    class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 px-6 rounded-lg font-bold hover:from-blue-700 hover:to-purple-700">
+                                <i class="fas fa-plus mr-2"></i>Create Tournament
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Check if logged in
+        if (localStorage.getItem('adminToken')) {
+            showAdminPanel();
+        }
+
+        // Login form
+        document.getElementById('loginFormElement').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Simple authentication (in real app, this would be API call)
+            if (email === 'admin@tournament.com' && password === 'admin123') {
+                localStorage.setItem('adminToken', 'admin-logged-in');
+                showAdminPanel();
+            } else {
+                alert('Invalid credentials!');
+            }
+        });
+
+        function showAdminPanel() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('adminPanel').classList.remove('hidden');
+        }
+
+        function logout() {
+            localStorage.removeItem('adminToken');
+            location.reload();
+        }
+
+        function showDashboard() {
+            document.getElementById('pageTitle').textContent = 'Dashboard';
+            hideAllContent();
+            document.getElementById('dashboardContent').classList.remove('hidden');
+            updateActiveNav('Dashboard');
+        }
+
+        function showCreateTournament() {
+            document.getElementById('pageTitle').textContent = 'Create Tournament';
+            hideAllContent();
+            document.getElementById('createTournamentContent').classList.remove('hidden');
+            updateActiveNav('Create Tournament');
+        }
+
+        function showTournamentHistory() {
+            document.getElementById('pageTitle').textContent = 'Tournament History';
+            hideAllContent();
+            // Add tournament history content here
+        }
+
+        function showPaymentSettings() {
+            document.getElementById('pageTitle').textContent = 'Payment Settings';
+            hideAllContent();
+            // Add payment settings content here
+        }
+
+        function hideAllContent() {
+            document.getElementById('dashboardContent').classList.add('hidden');
+            document.getElementById('createTournamentContent').classList.add('hidden');
+        }
+
+        function updateActiveNav(active) {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('bg-blue-50', 'text-blue-600');
+            });
+            // Add active class to current nav item
+        }
+
+        // Tournament form submission
+        document.getElementById('tournamentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('tournamentName').value,
+                prizePool: document.getElementById('prizePool').value,
+                firstPrize: document.getElementById('firstPrize').value,
+                secondPrize: document.getElementById('secondPrize').value,
+                thirdPrize: document.getElementById('thirdPrize').value,
+                slotPrice: document.getElementById('slotPrice').value,
+                totalSlots: document.getElementById('totalSlots').value,
+                endTime: document.getElementById('endTime').value,
+                groupLink: document.getElementById('groupLink').value
+            };
+            
+            console.log('Tournament Created:', formData);
+            alert('Tournament created successfully!');
+            
+            // In real app, this would be an API call
+            // Reset form
+            this.reset();
+        });
+    </script>
+</body>
+  </html>
